@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="member">
+	<select id="memberList"
+		resultType="com.example.project01.model.member.dto.MemberDTO">
+		select * from member
+		order by name
+	</select>
+
+	<select id="login_check"
+		parameterType="com.example.project01.model.member.dto.MemberDTO"
+		resultType="String">
+		select name from user_info
+		where userid=#{userid} and
+		passwd=#{passwd}
+	</select>
+	
+	<insert id="join">
+		insert into user_info
+		(uno,userid,passwd,name,birth,gender,email,email_confirm,hp,postcode,road_addr,detail_addr)
+		values
+		(user_info_seq.nextval,#{userid},#{passwd},#{name},#{birth},#{gender},#{email},#{email_confirm},#{hp},#{postcode},#{road_addr},#{detail_addr});
+	</insert>
+
+	<select id="viewMember"
+		resultType="com.example.project01.model.member.dto.MemberDTO">
+		select * from member
+		where
+		userid=#{userid}
+	</select>
+
+	<update id="updateMember">
+		update member
+		set passwd=#{passwd}, name=#{name},
+		email=#{email},
+		addr1=#{addr1}, addr2=#{addr2}, addr3=#{addr3}
+		where
+		userid=#{userid}
+	</update>
+
+
+
+	<!-- 비밀번호 체크 -->
+	<select id="checkPw" resultType="int">
+		select count(*) from member
+		where userid=#{userid} and passwd=#{passwd}
+	</select>
+
+	<delete id="deleteMember">
+		delete from member
+		where userid=#{userid}
+	</delete>
+
+	<select id="userid_check" resultType="int">
+		select count(*) from member where userid=#{userid}
+	</select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
